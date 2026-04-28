@@ -6,13 +6,13 @@
     <title>Поддержка — Salaamly</title>
     <style>
         :root {
-            --primary: #2c5e50; /* Глубокий изумрудный */
-            --accent: #d4a373;  /* Песочный */
+            --primary: #2c5e50;
+            --accent: #d4a373;
             --bg: #fdfdfd;
             --text: #2d3436;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -49,7 +49,25 @@
         }
 
         h1 { font-size: 24px; margin-bottom: 10px; font-weight: 700; }
-        p { color: #636e72; font-size: 16px; margin-bottom: 30px; line-height: 1.5; }
+        p { color: #636e72; font-size: 16px; margin-bottom: 25px; line-height: 1.5; }
+
+        .email-box {
+            background: #f8f9fa;
+            border: 1px dashed #cbd5e0;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .email-text {
+            display: block;
+            font-family: monospace;
+            font-size: 16px;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
 
         .btn-email {
             display: block;
@@ -64,13 +82,23 @@
             box-shadow: 0 8px 20px rgba(44, 94, 80, 0.2);
         }
 
-        .btn-email:active { transform: scale(0.97); }
+        .btn-email:hover { background: #1e4137; }
 
-        .footer {
-            margin-top: 40px;
-            font-size: 13px;
-            color: #b2bec3;
+        .footer-links {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
         }
+
+        .footer-links a {
+            color: #b2bec3;
+            text-decoration: none;
+            font-size: 13px;
+            margin: 0 10px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--primary); }
     </style>
 </head>
 <body>
@@ -78,13 +106,18 @@
     <div class="card">
         <div class="logo-circle">S</div>
         <h1>Поддержка Salaamly</h1>
-        <p>Если у вас возникли вопросы по обучению или работе приложения, напишите нам. Мы ответим вам в ближайшее время.</p>
+        <p>Если у вас возникли вопросы, напишите нам. Мы всегда на связи.</p>
         
-        <a href="mailto:groupforkids@gmail.com" class="btn-email">Написать нам на почту</a>
+        <div class="email-box">
+            <span style="font-size: 12px; color: #a0aec0; text-transform: uppercase;">Наш адрес:</span>
+            <span class="email-text">support@salaamly.com</span>
+        </div>
 
-        <div class="footer">
-            &copy; 2026 Salaamly Project<br>
-            <small>Помощь • Конфиденциальность</small>
+        <a href="mailto:support@salaamly.com" class="btn-email">Открыть почту</a>
+
+        <div class="footer-links">
+            <a href="privacy.html">Конфиденциальность</a>
+            <a href="terms.html">Условия</a>
         </div>
     </div>
 
