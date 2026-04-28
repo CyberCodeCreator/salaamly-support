@@ -5,15 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Поддержка — Salaamly</title>
     <style>
+        /* Базовые настройки и цветовая палитра */
         :root {
             --primary: #2c5e50;
+            --primary-hover: #1f4238; /* Цвет для эффекта при наведении */
             --accent: #d4a373;
             --bg: #fdfdfd;
             --text: #2d3436;
             --success: #27ae60;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        /* Сброс базовых стилей для единообразия во всех браузерах */
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -27,6 +33,7 @@
             padding: 20px;
         }
 
+        /* Основная карточка */
         .card {
             width: 100%;
             max-width: 400px;
@@ -48,12 +55,14 @@
             line-height: 80px;
             border-radius: 50%;
             margin: 0 auto 20px;
+            /* Запрещаем выделять логотип как текст */
+            user-select: none; 
         }
 
         h1 { font-size: 24px; margin-bottom: 10px; font-weight: 700; }
         p { color: #636e72; font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
 
-        /* Блок копирования */
+        /* Блок копирования email */
         .copy-box {
             background: #f8f9fa;
             border: 2px solid #edf2f7;
@@ -63,6 +72,18 @@
             cursor: pointer;
             position: relative;
             transition: all 0.2s ease;
+            outline: none; /* Убираем стандартную обводку... */
+        }
+
+        /* ...и добавляем красивую при навигации с клавиатуры */
+        .copy-box:focus-visible {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 94, 80, 0.2);
+        }
+
+        .copy-box:hover {
+            border-color: #e2e8f0;
+            background: #f1f5f9;
         }
 
         .copy-box:active {
@@ -73,7 +94,7 @@
         .email-label {
             display: block;
             font-size: 11px;
-            color: #a0aec0;
+            color: #718096; /* Сделали чуть темнее для лучшей читаемости */
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 4px;
@@ -109,8 +130,9 @@
             border-radius: 20px;
             font-size: 14px;
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Эффект пружинки */
             pointer-events: none;
+            z-index: 10;
         }
 
         .toast.show {
@@ -118,6 +140,7 @@
             opacity: 1;
         }
 
+        /* Кнопка "Открыть в почте" */
         .btn-email {
             display: block;
             background: var(--primary);
@@ -129,6 +152,16 @@
             font-size: 17px;
             box-shadow: 0 8px 20px rgba(44, 94, 80, 0.15);
             margin-top: 10px;
+            transition: background 0.2s ease, transform 0.1s ease;
+            outline: none;
+        }
+
+        .btn-email:hover, .btn-email:focus-visible {
+            background: var(--primary-hover);
+        }
+
+        .btn-email:active {
+            transform: scale(0.98);
         }
 
         .footer-links {
@@ -142,23 +175,32 @@
             text-decoration: none;
             font-size: 13px;
             margin: 0 10px;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover, .footer-links a:focus-visible {
+            color: var(--primary);
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div id="toast" class="toast">Скопировано!</div>
+    <main class="card">
+        <div id="toast" class="toast" role="status" aria-live="polite">Скопировано!</div>
         
-        <div class="logo-circle">S</div>
+        <div class="logo-circle" aria-hidden="true">S</div>
         <h1>Поддержка Salaamly</h1>
-        <p>Если у вас возникли вопросы напишите нам.</p> 
+        <p>Если у вас возникли вопросы, напишите нам.</p> 
         <p>Нажмите на адрес ниже, чтобы скопировать его, или воспользуйтесь кнопкой.</p>
-        <div class="copy-box" onclick="copyEmail()">
+        
+        <div class="copy-box" id="copyBtn" role="button" tabindex="0" aria-label="Скопировать электронную почту">
             <span class="email-label">Нажмите, чтобы скопировать:</span>
             <span id="email" class="email-text">groupforkids@gmail.com</span>
             <div class="copy-hint">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
                 Копировать адрес
             </div>
         </div>
@@ -169,19 +211,58 @@
             <a href="https://cybercodecreator.github.io/salaamly-legal/index.html">Конфиденциальность</a>
             <a href="https://cybercodecreator.github.io/salaamly-legal/terms.html">Условия</a>
         </div>
-    </div>
+    </main>
 
     <script>
+        // Сохраняем ссылки на элементы HTML
+        const copyBtn = document.getElementById('copyBtn');
+        const emailText = document.getElementById('email').innerText;
+        const toast = document.getElementById('toast');
+        let toastTimeout; // Переменная для хранения таймера
+
+        // Основная функция копирования
         function copyEmail() {
-            const email = document.getElementById('email').innerText;
-            navigator.clipboard.writeText(email).then(() => {
-                const toast = document.getElementById('toast');
-                toast.classList.add('show');
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 2000);
-            });
+            // Проверка: поддерживает ли браузер современный API буфера обмена
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(emailText).then(() => {
+                    showToast('Скопировано!');
+                }).catch(err => {
+                    console.error('Ошибка копирования: ', err);
+                    showToast('Ошибка при копировании', true);
+                });
+            } else {
+                // Запасной вариант для старых браузеров
+                showToast('Скопируйте адрес вручную', true);
+            }
         }
+
+        // Функция показа уведомления (тоста)
+        function showToast(message, isError = false) {
+            toast.innerText = message;
+            toast.style.background = isError ? '#e74c3c' : 'var(--success)';
+            
+            toast.classList.add('show');
+            
+            // Если пользователь кликает несколько раз, очищаем старый таймер,
+            // чтобы уведомление не исчезло раньше времени
+            clearTimeout(toastTimeout);
+            
+            // Прячем уведомление через 2 секунды
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Слушаем клик мышкой
+        copyBtn.addEventListener('click', copyEmail);
+
+        // Слушаем нажатие клавиш (Enter или Пробел) для доступности (Accessibility)
+        copyBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault(); // Предотвращаем скролл страницы при нажатии пробела
+                copyEmail();
+            }
+        });
     </script>
 
 </body>
