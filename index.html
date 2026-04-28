@@ -10,6 +10,7 @@
             --accent: #d4a373;
             --bg: #fdfdfd;
             --text: #2d3436;
+            --success: #27ae60;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -35,6 +36,7 @@
             text-align: center;
             box-shadow: 0 15px 35px rgba(44, 94, 80, 0.08);
             border: 1px solid rgba(0,0,0,0.03);
+            position: relative;
         }
 
         .logo-circle {
@@ -49,24 +51,71 @@
         }
 
         h1 { font-size: 24px; margin-bottom: 10px; font-weight: 700; }
-        p { color: #636e72; font-size: 16px; margin-bottom: 25px; line-height: 1.5; }
+        p { color: #636e72; font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
 
-        .email-box {
+        /* Блок копирования */
+        .copy-box {
             background: #f8f9fa;
-            border: 1px dashed #cbd5e0;
+            border: 2px solid #edf2f7;
             padding: 15px;
-            border-radius: 12px;
+            border-radius: 16px;
             margin-bottom: 20px;
             cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .copy-box:active {
+            background: #edf2f7;
+            transform: scale(0.98);
+        }
+
+        .email-label {
+            display: block;
+            font-size: 11px;
+            color: #a0aec0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
         }
 
         .email-text {
-            display: block;
-            font-family: monospace;
-            font-size: 16px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 17px;
             color: var(--primary);
             font-weight: bold;
-            margin-bottom: 5px;
+            word-break: break-all;
+        }
+
+        .copy-hint {
+            font-size: 12px;
+            color: var(--accent);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        /* Уведомление о копировании */
+        .toast {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            top: 20px;
+            opacity: 1;
         }
 
         .btn-email {
@@ -78,11 +127,9 @@
             border-radius: 16px;
             font-weight: 600;
             font-size: 17px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(44, 94, 80, 0.2);
+            box-shadow: 0 8px 20px rgba(44, 94, 80, 0.15);
+            margin-top: 10px;
         }
-
-        .btn-email:hover { background: #1e4137; }
 
         .footer-links {
             margin-top: 35px;
@@ -95,31 +142,47 @@
             text-decoration: none;
             font-size: 13px;
             margin: 0 10px;
-            transition: color 0.2s;
         }
-
-        .footer-links a:hover { color: var(--primary); }
     </style>
 </head>
 <body>
 
     <div class="card">
+        <div id="toast" class="toast">Скопировано!</div>
+        
         <div class="logo-circle">S</div>
         <h1>Поддержка Salaamly</h1>
-        <p>Если у вас возникли вопросы, напишите нам. Мы всегда на связи.</p>
+        <p>Нажмите на адрес ниже, чтобы скопировать его, или воспользуйтесь кнопкой.</p>
         
-        <div class="email-box">
-            <span style="font-size: 12px; color: #a0aec0; text-transform: uppercase;">Наш адрес:</span>
-            <span class="email-text">support@salaamly.com</span>
+        <div class="copy-box" onclick="copyEmail()">
+            <span class="email-label">Нажмите, чтобы скопировать:</span>
+            <span id="email" class="email-text">support@salaamly.com</span>
+            <div class="copy-hint">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Копировать адрес
+            </div>
         </div>
 
-        <a href="mailto:support@salaamly.com" class="btn-email">Открыть почту</a>
+        <a href="mailto:support@salaamly.com" class="btn-email">Открыть в почте</a>
 
         <div class="footer-links">
             <a href="privacy.html">Конфиденциальность</a>
             <a href="terms.html">Условия</a>
         </div>
     </div>
+
+    <script>
+        function copyEmail() {
+            const email = document.getElementById('email').innerText;
+            navigator.clipboard.writeText(email).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            });
+        }
+    </script>
 
 </body>
 </html>
