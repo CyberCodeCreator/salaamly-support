@@ -5,17 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Поддержка — Salaamly</title>
     <style>
-        /* Базовые настройки и цветовая палитра */
+        /* =========================================
+           1. ПАЛИТРА СВЕТЛОЙ ТЕМЫ (ПО УМОЛЧАНИЮ)
+           ========================================= */
         :root {
+            /* Базовые цвета (остаются похожими в обеих темах) */
             --primary: #2c5e50;
-            --primary-hover: #1f4238; /* Цвет для эффекта при наведении */
+            --primary-hover: #1f4238;
             --accent: #d4a373;
-            --bg: #fdfdfd;
-            --text: #2d3436;
             --success: #27ae60;
+
+            /* Цвета интерфейса для светлой темы */
+            --bg-color: #fdfdfd;
+            --text-color: #2d3436;
+            --text-muted: #636e72;
+            
+            --card-bg: #ffffff;
+            --card-border: rgba(0, 0, 0, 0.03);
+            --card-shadow: rgba(44, 94, 80, 0.08);
+            
+            --copy-bg: #f8f9fa;
+            --copy-border: #edf2f7;
+            --copy-hover-bg: #f1f5f9;
+            --copy-active-bg: #edf2f7;
+            
+            --label-color: #718096;
+            --footer-border: #eeeeee;
+            --footer-link: #b2bec3;
         }
 
-        /* Сброс базовых стилей для единообразия во всех браузерах */
+        /* =========================================
+           2. ПАЛИТРА ТЁМНОЙ ТЕМЫ
+           ========================================= */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                /* Делаем основной цвет чуть светлее для контраста на тёмном фоне */
+                --primary: #418874; 
+                --primary-hover: #52a68e;
+                
+                /* Тёмные цвета интерфейса */
+                --bg-color: #121212;
+                --text-color: #f5f6fa;
+                --text-muted: #a4b0be;
+                
+                --card-bg: #1e272e;
+                --card-border: rgba(255, 255, 255, 0.05);
+                --card-shadow: rgba(0, 0, 0, 0.4);
+                
+                --copy-bg: #2d3436;
+                --copy-border: #40484b;
+                --copy-hover-bg: #353b3e;
+                --copy-active-bg: #252b2d;
+                
+                --label-color: #a4b0be;
+                --footer-border: #2d3436;
+                --footer-link: #747d8c;
+            }
+        }
+
+        /* =========================================
+           3. ОСНОВНЫЕ СТИЛИ (используют переменные)
+           ========================================= */
         * { 
             box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent; 
@@ -23,27 +73,29 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             padding: 20px;
+            /* Плавный переход при смене темы на лету */
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Основная карточка */
         .card {
             width: 100%;
             max-width: 400px;
-            background: white;
+            background: var(--card-bg);
             padding: 40px 25px;
             border-radius: 30px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(44, 94, 80, 0.08);
-            border: 1px solid rgba(0,0,0,0.03);
+            box-shadow: 0 15px 35px var(--card-shadow);
+            border: 1px solid var(--card-border);
             position: relative;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
         .logo-circle {
@@ -55,49 +107,48 @@
             line-height: 80px;
             border-radius: 50%;
             margin: 0 auto 20px;
-            /* Запрещаем выделять логотип как текст */
             user-select: none; 
+            transition: background-color 0.3s ease;
         }
 
         h1 { font-size: 24px; margin-bottom: 10px; font-weight: 700; }
-        p { color: #636e72; font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
+        p { color: var(--text-muted); font-size: 15px; margin-bottom: 25px; line-height: 1.5; transition: color 0.3s ease;}
 
-        /* Блок копирования email */
         .copy-box {
-            background: #f8f9fa;
-            border: 2px solid #edf2f7;
+            background: var(--copy-bg);
+            border: 2px solid var(--copy-border);
             padding: 15px;
             border-radius: 16px;
             margin-bottom: 20px;
             cursor: pointer;
             position: relative;
             transition: all 0.2s ease;
-            outline: none; /* Убираем стандартную обводку... */
+            outline: none;
         }
 
-        /* ...и добавляем красивую при навигации с клавиатуры */
         .copy-box:focus-visible {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(44, 94, 80, 0.2);
         }
 
         .copy-box:hover {
-            border-color: #e2e8f0;
-            background: #f1f5f9;
+            border-color: var(--copy-border);
+            background: var(--copy-hover-bg);
         }
 
         .copy-box:active {
-            background: #edf2f7;
+            background: var(--copy-active-bg);
             transform: scale(0.98);
         }
 
         .email-label {
             display: block;
             font-size: 11px;
-            color: #718096; /* Сделали чуть темнее для лучшей читаемости */
+            color: var(--label-color);
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 4px;
+            transition: color 0.3s ease;
         }
 
         .email-text {
@@ -106,6 +157,7 @@
             color: var(--primary);
             font-weight: bold;
             word-break: break-all;
+            transition: color 0.3s ease;
         }
 
         .copy-hint {
@@ -118,7 +170,6 @@
             gap: 5px;
         }
 
-        /* Уведомление о копировании */
         .toast {
             position: absolute;
             top: -20px;
@@ -130,9 +181,10 @@
             border-radius: 20px;
             font-size: 14px;
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Эффект пружинки */
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             pointer-events: none;
             z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .toast.show {
@@ -140,7 +192,6 @@
             opacity: 1;
         }
 
-        /* Кнопка "Открыть в почте" */
         .btn-email {
             display: block;
             background: var(--primary);
@@ -150,9 +201,9 @@
             border-radius: 16px;
             font-weight: 600;
             font-size: 17px;
-            box-shadow: 0 8px 20px rgba(44, 94, 80, 0.15);
+            box-shadow: 0 8px 20px var(--card-shadow);
             margin-top: 10px;
-            transition: background 0.2s ease, transform 0.1s ease;
+            transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.3s ease;
             outline: none;
         }
 
@@ -167,11 +218,12 @@
         .footer-links {
             margin-top: 35px;
             padding-top: 20px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--footer-border);
+            transition: border-color 0.3s ease;
         }
 
         .footer-links a {
-            color: #b2bec3;
+            color: var(--footer-link);
             text-decoration: none;
             font-size: 13px;
             margin: 0 10px;
@@ -214,15 +266,12 @@
     </main>
 
     <script>
-        // Сохраняем ссылки на элементы HTML
         const copyBtn = document.getElementById('copyBtn');
         const emailText = document.getElementById('email').innerText;
         const toast = document.getElementById('toast');
-        let toastTimeout; // Переменная для хранения таймера
+        let toastTimeout; 
 
-        // Основная функция копирования
         function copyEmail() {
-            // Проверка: поддерживает ли браузер современный API буфера обмена
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(emailText).then(() => {
                     showToast('Скопировано!');
@@ -231,35 +280,28 @@
                     showToast('Ошибка при копировании', true);
                 });
             } else {
-                // Запасной вариант для старых браузеров
                 showToast('Скопируйте адрес вручную', true);
             }
         }
 
-        // Функция показа уведомления (тоста)
         function showToast(message, isError = false) {
             toast.innerText = message;
             toast.style.background = isError ? '#e74c3c' : 'var(--success)';
             
             toast.classList.add('show');
             
-            // Если пользователь кликает несколько раз, очищаем старый таймер,
-            // чтобы уведомление не исчезло раньше времени
             clearTimeout(toastTimeout);
             
-            // Прячем уведомление через 2 секунды
             toastTimeout = setTimeout(() => {
                 toast.classList.remove('show');
             }, 2000);
         }
 
-        // Слушаем клик мышкой
         copyBtn.addEventListener('click', copyEmail);
 
-        // Слушаем нажатие клавиш (Enter или Пробел) для доступности (Accessibility)
         copyBtn.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault(); // Предотвращаем скролл страницы при нажатии пробела
+                e.preventDefault();
                 copyEmail();
             }
         });
