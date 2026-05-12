@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support — Salaamly</title>
+    <title>Поддержка — Salaamly</title>
     <style>
         /* =========================================
-           1. LIGHT THEME PALETTE (DEFAULT)
+           1. ПАЛИТРА СВЕТЛОЙ ТЕМЫ (ПО УМОЛЧАНИЮ)
            ========================================= */
         :root {
+            /* Базовые цвета (остаются похожими в обеих темах) */
             --primary: #2c5e50;
             --primary-hover: #1f4238;
             --accent: #d4a373;
             --success: #27ae60;
 
+            /* Цвета интерфейса для светлой темы */
             --bg-color: #fdfdfd;
             --text-color: #2d3436;
             --text-muted: #636e72;
@@ -33,13 +35,15 @@
         }
 
         /* =========================================
-           2. DARK THEME PALETTE
+           2. ПАЛИТРА ТЁМНОЙ ТЕМЫ
            ========================================= */
         @media (prefers-color-scheme: dark) {
             :root {
+                /* Делаем основной цвет чуть светлее для контраста на тёмном фоне */
                 --primary: #418874; 
                 --primary-hover: #52a68e;
                 
+                /* Тёмные цвета интерфейса */
                 --bg-color: #121212;
                 --text-color: #f5f6fa;
                 --text-muted: #a4b0be;
@@ -60,7 +64,7 @@
         }
 
         /* =========================================
-           3. BASE STYLES
+           3. ОСНОВНЫЕ СТИЛИ (используют переменные)
            ========================================= */
         * { 
             box-sizing: border-box; 
@@ -77,6 +81,7 @@
             justify-content: center;
             min-height: 100vh;
             padding: 20px;
+            /* Плавный переход при смене темы на лету */
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
@@ -233,30 +238,30 @@
 <body>
 
     <main class="card">
-        <div id="toast" class="toast" role="status" aria-live="polite">Copied!</div>
+        <div id="toast" class="toast" role="status" aria-live="polite">Скопировано!</div>
         
         <div class="logo-circle" aria-hidden="true">S</div>
-        <h1>Salaamly Support</h1>
-        <p>If you have any questions, please feel free to reach out to us.</p> 
-        <p>Click on the address below to copy it, or use the button to open your mail app.</p>
+        <h1>Поддержка Salaamly</h1>
+        <p>Если у вас возникли вопросы, напишите нам.</p> 
+        <p>Нажмите на адрес ниже, чтобы скопировать его, или воспользуйтесь кнопкой.</p>
         
-        <div class="copy-box" id="copyBtn" role="button" tabindex="0" aria-label="Copy email address">
-            <span class="email-label">Click to copy:</span>
+        <div class="copy-box" id="copyBtn" role="button" tabindex="0" aria-label="Скопировать электронную почту">
+            <span class="email-label">Нажмите, чтобы скопировать:</span>
             <span id="email" class="email-text">groupforkids@gmail.com</span>
             <div class="copy-hint">
                 <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
-                Copy Address
+                Копировать адрес
             </div>
         </div>
 
-        <a href="mailto:groupforkids@gmail.com" class="btn-email">Open in Mail</a>
+        <a href="mailto:groupforkids@gmail.com" class="btn-email">Открыть в почте</a>
 
         <div class="footer-links">
-            <a href="https://cybercodecreator.github.io/salaamly-legal/index.html">Privacy Policy</a>
-            <a href="https://cybercodecreator.github.io/salaamly-legal/terms.html">Terms of Service</a>
+            <a href="https://cybercodecreator.github.io/salaamly-legal/index.html">Конфиденциальность</a>
+            <a href="https://cybercodecreator.github.io/salaamly-legal/terms.html">Условия</a>
         </div>
     </main>
 
@@ -268,16 +273,14 @@
 
         function copyEmail() {
             if (navigator.clipboard && window.isSecureContext) {
-                // Modern clipboard API
                 navigator.clipboard.writeText(emailText).then(() => {
-                    showToast('Copied!');
+                    showToast('Скопировано!');
                 }).catch(err => {
-                    console.error('Copy error: ', err);
-                    showToast('Error copying text', true);
+                    console.error('Ошибка копирования: ', err);
+                    showToast('Ошибка при копировании', true);
                 });
             } else {
-                // Fallback for older browsers
-                showToast('Please copy manually', true);
+                showToast('Скопируйте адрес вручную', true);
             }
         }
 
@@ -294,10 +297,8 @@
             }, 2000);
         }
 
-        // Click event
         copyBtn.addEventListener('click', copyEmail);
 
-        // Accessibility: Enter or Space keys
         copyBtn.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
